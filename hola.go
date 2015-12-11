@@ -33,19 +33,32 @@ func fibonacci(c, quit chan int) {
 			fmt.Println("quit")
 			return
 		case c <- x:
+			fmt.Println("x")
 			x, y = y, x+y
 		}
 	}
 }
 
+// sell := j["status"].(map[string]interface{})["sell"] 
+// if sell != nil {
+// 	sellImmediatePayment := sell.(map[string]interface{})["immediate_payment"]
+// 	if sellImmediatePayment != nil {
+// 		sellRequiredField := sellImmediatePayment.(map[string]interface{})["required"]
+// 		if sellRequiredField != nil {
+// 			sellRequired := sellRequiredField.(bool)
+// 		}
+// 	} 
+// }
+
 func main() {
 	c := make(chan int, 10)
 	quit := make(chan int)
-	go func() {
+	go fibonacci(c, quit)
+	func() {
 		quit <- 0
+		fmt.Println("quit")
 		for i := 0; i < 10; i++ {
 			fmt.Println(<-c)
 		}
 	}()
-	fibonacci(c, quit)
 }
